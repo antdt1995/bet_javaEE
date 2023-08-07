@@ -1,6 +1,7 @@
 package org.example.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -27,37 +28,33 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Table(name = "football_match")
-public class FootballMatch {
+@Table(name = "odd")
+public class Odd {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "home_team_id", nullable = false)
-    private FootballTeam homeTeam;
-
-    @Column(name = "home_team_score")
-    private Long homeScore;
+    @JoinColumn(name = "odd_type", nullable = false)
+    private OddTypeEnum oddType;
 
     @ManyToOne
-    @JoinColumn(name = "away_team_id", nullable = false)
-    private FootballTeam awayTeam;
+    @JoinColumn(name = "match_id", nullable = false)
+    private FootballMatch footballMatch;
 
-    @Column(name = "away_team_score")
-    private Long awayScore;
+    @OneToMany(mappedBy = "odd", cascade = CascadeType.REMOVE)
+    @JsonIgnore
+    private List<InvoiceDetail> invoiceDetails;
 
-    @Column(name = "total_score")
-    private Long totalScore;
+    @Column(name = "odd_rate",nullable = false)
+    private Double oddRate;
 
-    @Column(name = "start_date")
+    @Column(name = "set_score",nullable = false)
+    private Double setScore;
+
+    @Column(name = "end_date",nullable = false)
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
-    private LocalDateTime startDate;
+    private LocalDateTime endDate;
 
-    @OneToMany(mappedBy = "footballMatch", cascade = CascadeType.REMOVE)
-    private List<Odd> odds;
-
-    @Column(name = "complete_status")
-    private Boolean completeStatus;
-
+    private Boolean active;
 }
