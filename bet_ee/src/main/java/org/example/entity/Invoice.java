@@ -37,7 +37,6 @@ public class Invoice {
     private Account account;
 
     @OneToMany(mappedBy = "invoice", cascade = CascadeType.PERSIST)
-    @JsonIgnore
     private List<InvoiceDetail> invoiceDetails;
 
     @Column(name = "total_bet")

@@ -1,12 +1,11 @@
 package org.example.dao;
 
-import org.example.entity.Odd;
-
 import javax.ejb.Stateless;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 
 @Stateless
-public class OddDAO extends BaseDAO<Odd> {
-    public OddDAO() {
-        super(Odd.class);
-    }
+public class OddDAO {
+    @PersistenceContext(name = "betting")
+    private EntityManager em;
 }

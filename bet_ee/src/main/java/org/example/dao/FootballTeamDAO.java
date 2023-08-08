@@ -1,13 +1,11 @@
 package org.example.dao;
 
-import org.example.entity.FootballTeam;
-
 import javax.ejb.Stateless;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 
 @Stateless
-public class FootballTeamDAO extends BaseDAO<FootballTeam> {
-
-    public FootballTeamDAO() {
-        super(FootballTeam.class);
-    }
+public class FootballTeamDAO {
+    @PersistenceContext(name = "betting")
+    private EntityManager em;
 }
