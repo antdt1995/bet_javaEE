@@ -9,7 +9,7 @@ import org.example.entity.FootballTeam;
 import org.example.entity.MatchResult;
 import org.example.entity.ResultEnum;
 import org.example.exception.ErrorMessage;
-import org.example.exception.ResourceNotFoundException;
+import org.example.exception.EntityNotFoundException;
 import org.example.mapper.FootballMatchMapper;
 import org.example.model.FootballMatchDTO;
 import org.hibernate.validator.messageinterpolation.ParameterMessageInterpolator;
@@ -57,15 +57,15 @@ public class FootballMatchService {
         return footballMatchMapper.toDTOList(footballMatchList);
     }
 
-    public FootballMatchDTO getbyId(Long id) throws ResourceNotFoundException {
+    public FootballMatchDTO getById(Long id) throws EntityNotFoundException {
         FootballMatch footballMatch = footballMatchDAO.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException(ErrorMessage.FOOTBALL_MATCH_NOT_FOUND_MSG_KEY, ErrorMessage.FOOTBALL_MATCH_NOT_FOUND_MSG));
+                .orElseThrow(() -> new EntityNotFoundException(ErrorMessage.FOOTBALL_MATCH_NOT_FOUND_MSG_KEY, ErrorMessage.FOOTBALL_MATCH_NOT_FOUND_MSG));
         return footballMatchMapper.toDTO(footballMatch);
     }
 
-    public FootballMatchDTO create(FootballMatchDTO footballMatchDTO, Long homeId, Long awayId) throws ResourceNotFoundException {
-        FootballTeam homeTeam = footballTeamDAO.findById(homeId).orElseThrow(() -> new ResourceNotFoundException(ErrorMessage.FOOTBALL_TEAM_NOT_FOUND_MSG_KEY, ErrorMessage.FOOTBALL_TEAM_NOT_FOUND_MSG));
-        FootballTeam awayTeam = footballTeamDAO.findById(awayId).orElseThrow(() -> new ResourceNotFoundException(ErrorMessage.FOOTBALL_TEAM_NOT_FOUND_MSG_KEY, ErrorMessage.FOOTBALL_TEAM_NOT_FOUND_MSG));
+    public FootballMatchDTO create(FootballMatchDTO footballMatchDTO, Long homeId, Long awayId) throws EntityNotFoundException {
+        FootballTeam homeTeam = footballTeamDAO.findById(homeId).orElseThrow(() -> new EntityNotFoundException(ErrorMessage.FOOTBALL_TEAM_NOT_FOUND_MSG_KEY, ErrorMessage.FOOTBALL_TEAM_NOT_FOUND_MSG));
+        FootballTeam awayTeam = footballTeamDAO.findById(awayId).orElseThrow(() -> new EntityNotFoundException(ErrorMessage.FOOTBALL_TEAM_NOT_FOUND_MSG_KEY, ErrorMessage.FOOTBALL_TEAM_NOT_FOUND_MSG));
         verifyInput(footballMatchDTO);
 
         FootballMatch footballMatch = FootballMatch.builder()
@@ -82,9 +82,9 @@ public class FootballMatchService {
         return footballMatchMapper.toDTO(footballMatch);
     }
 
-    public FootballMatchDTO update(FootballMatchDTO footballMatchDTO, Long id) throws ResourceNotFoundException {
+    public FootballMatchDTO update(FootballMatchDTO footballMatchDTO, Long id) throws EntityNotFoundException {
         FootballMatch footballMatch = footballMatchDAO.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException(ErrorMessage.FOOTBALL_MATCH_NOT_FOUND_MSG_KEY, ErrorMessage.FOOTBALL_MATCH_NOT_FOUND_MSG));
+                .orElseThrow(() -> new EntityNotFoundException(ErrorMessage.FOOTBALL_MATCH_NOT_FOUND_MSG_KEY, ErrorMessage.FOOTBALL_MATCH_NOT_FOUND_MSG));
 
         verifyInput(footballMatchDTO);
 
@@ -102,9 +102,9 @@ public class FootballMatchService {
         return footballMatchMapper.toDTO(footballMatchDAO.update(footballMatch));
     }
 
-    public void delete(Long id) throws ResourceNotFoundException {
+    public void delete(Long id) throws EntityNotFoundException {
         FootballMatch footballMatch = footballMatchDAO.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException(ErrorMessage.FOOTBALL_MATCH_NOT_FOUND_MSG_KEY, ErrorMessage.FOOTBALL_MATCH_NOT_FOUND_MSG));
+                .orElseThrow(() -> new EntityNotFoundException(ErrorMessage.FOOTBALL_MATCH_NOT_FOUND_MSG_KEY, ErrorMessage.FOOTBALL_MATCH_NOT_FOUND_MSG));
 
         footballMatchDAO.delete(footballMatch.getId());
     }

@@ -7,11 +7,11 @@ import javax.ws.rs.ext.Provider;
 import java.util.logging.Logger;
 
 @Provider
-public class ResourceNotFoundExceptionMapper implements ExceptionMapper<ResourceNotFoundException> {
-    static Logger logger = Logger.getLogger(ResourceNotFoundExceptionMapper.class.getName());
+public class EntityNotFoundExceptionMapper implements ExceptionMapper<EntityNotFoundException> {
+    static Logger logger = Logger.getLogger(EntityNotFoundExceptionMapper.class.getName());
 
     @Override
-    public Response toResponse(ResourceNotFoundException e) {
+    public Response toResponse(EntityNotFoundException e) {
         StackTraceElement[] stackTraceArray = e.getStackTrace();
         String logMessage = String.format("%s:%d - %s",
                 stackTraceArray[0].getClassName(),

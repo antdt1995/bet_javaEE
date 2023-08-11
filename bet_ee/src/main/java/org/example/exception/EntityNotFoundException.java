@@ -7,11 +7,11 @@ import javax.ws.rs.core.Response;
 
 @Getter
 @ApplicationException
-public class ResourceNotFoundException extends Exception {
+public class EntityNotFoundException extends Exception {
 
     private final transient ResponseBody responseBody;
 
-    public ResourceNotFoundException(String keyMessage, String message) {
+    public EntityNotFoundException(String keyMessage, String message) {
         this.responseBody = new ResponseBody(Response.Status.NOT_FOUND, keyMessage, message);
     }
 }

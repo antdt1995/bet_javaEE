@@ -9,7 +9,6 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
 @Entity
 @Setter
@@ -43,7 +42,7 @@ public class FootballMatch {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     private LocalDateTime startDate;
 
-    @OneToOne(mappedBy = "match",cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "match", cascade = CascadeType.ALL)
     @JoinColumn(name = "match_result_id")
     private MatchResult matchResult;
 
