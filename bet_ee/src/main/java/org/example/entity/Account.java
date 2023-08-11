@@ -45,7 +45,6 @@ public class Account {
     private List<Invoice> invoices;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
     private RoleEnum roleEnum;
 
 

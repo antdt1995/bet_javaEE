@@ -1,6 +1,6 @@
 package org.example.entity;
 
-public enum OddTypeEnum {
+public enum ResultEnum {
     WIN,
     LOSE,
     DRAW

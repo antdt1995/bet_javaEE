@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -38,11 +37,11 @@ public class Odd {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private OddTypeEnum oddType;
+    private ResultEnum oddType;
 
     @ManyToOne
-    @JoinColumn(name = "match_id", nullable = false)
-    private FootballMatch footballMatch;
+    @JoinColumn(name = "match_result_id", nullable = false)
+    private MatchResult matchResult;
 
     @OneToMany(mappedBy = "odd", cascade = CascadeType.REMOVE)
     @JsonIgnore
