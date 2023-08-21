@@ -34,6 +34,12 @@ public class ErrorMessage {
     public static final String USERNAME_INVALID="Username is invalid";
     public static final String KEY_USERNAME_INVALID="exception.username.invalid";
 
+    public static final String KEY_PASSWORD_NULL_OR_BLANK="exception.password.invalid";
+    public static final String PASSWORD_NULL_OR_BLANK="Password cannot be null or blank";
+    public static final String KEY_UNAUTHORIZED_ACCESS="exception.unauthorized.access";
+    public static final String UNAUTHORIZED_ACCESS="Unauthorized Access";
+    public static final String KEY_FORBIDDEN_ACCESS="exception.forbidden.access";
+    public static final String FORBIDDEN_ACCESS="Forbidden Access";
     private ErrorMessage() {
     }
 
@@ -42,7 +48,7 @@ public class ErrorMessage {
         errorMap.put(POSITIVE_MESSAGE,KEY_POSITIVE_MESSAGE);
         errorMap.put( FUTURE_OR_PRESENT,KEY_FUTURE_OR_PRESENT);
         errorMap.put(USERNAME_INVALID,KEY_USERNAME_INVALID);
-
+        errorMap.put(PASSWORD_NULL_OR_BLANK,KEY_PASSWORD_NULL_OR_BLANK);
         return errorMap;
     }
 }

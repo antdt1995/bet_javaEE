@@ -15,6 +15,7 @@ public interface AccountMapper {
     @Mapping(source = "customer.phone", target = "phone")
     @Mapping(source = "customer.bankAccount", target = "bankAccount")
     @Mapping(source = "customer.bankName", target = "bankName")
+
     AccountDTO toDTO (Account account);
     List<AccountDTO> toDTOList (List<Account> accountList);
 }

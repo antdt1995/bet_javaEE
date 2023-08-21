@@ -3,6 +3,7 @@ package org.example.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
+import org.example.entity.RoleEnum;
 import org.example.exception.ErrorMessage;
 
 import javax.validation.constraints.Min;
@@ -27,4 +28,5 @@ public class AccountDTO {
     private String phone;
     private String bankName;
     private String bankAccount;
+    private RoleEnum roleEnum;
 }
