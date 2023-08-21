@@ -27,6 +27,7 @@ dependencies {
     annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.5.Final'
     implementation group: 'javax.persistence', name: 'javax.persistence-api', version: '2.2'
     implementation group: 'org.apache.commons', name: 'commons-collections4', version: '4.4'
+    implementation group: 'org.mindrot', name: 'jbcrypt', version: '0.4'
 }
 
 test {

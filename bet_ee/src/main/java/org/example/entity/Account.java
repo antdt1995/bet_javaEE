@@ -2,7 +2,6 @@ package org.example.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -51,7 +50,7 @@ public class Account {
     private Boolean active;
 
     @Column(name = "user_name", nullable = false, unique = true)
-    private String userName;
+    private String username;
 
     @Column(name = "email", unique = true)
     private String email;
@@ -63,7 +62,7 @@ public class Account {
     private Double totalBalance;
 
     public Account(String userName, String email, String password, Double totalBalance) {
-        this.userName = userName;
+        this.username = userName;
         this.email = email;
         this.password = password;
         this.totalBalance = totalBalance;

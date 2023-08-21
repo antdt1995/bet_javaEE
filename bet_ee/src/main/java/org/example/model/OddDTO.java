@@ -11,6 +11,7 @@ import org.example.entity.ResultEnum;
 import org.example.exception.ErrorMessage;
 
 import javax.validation.constraints.FutureOrPresent;
+import javax.validation.constraints.Min;
 import java.time.LocalDateTime;
 
 @Builder
@@ -23,6 +24,7 @@ public class OddDTO {
     private Long id;
     private ResultEnum oddType;
     private String homeTeamName;
+    @Min(value = 0L, message = ErrorMessage.POSITIVE_MESSAGE)
     private Double oddRate;
     private Double zetScore;
 

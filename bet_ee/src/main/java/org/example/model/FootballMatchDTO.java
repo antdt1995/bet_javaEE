@@ -9,10 +9,8 @@ import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import lombok.*;
 import org.example.exception.ErrorMessage;
 
-import javax.validation.constraints.Min;
-import javax.validation.constraints.Size;
 import javax.validation.constraints.FutureOrPresent;
-import java.time.LocalDate;
+import javax.validation.constraints.Min;
 import java.time.LocalDateTime;
 
 @Builder
@@ -26,12 +24,12 @@ public class FootballMatchDTO {
 
     private String homeTeamName;
 
-    @Min(value  = 0L, message = ErrorMessage.POSITIVE_MESSAGE)
+    @Min(value = 0L, message = ErrorMessage.POSITIVE_MESSAGE)
     private Long homeScore;
 
     private String awayTeamName;
 
-    @Min(value  = 0L, message = ErrorMessage.POSITIVE_MESSAGE)
+    @Min(value = 0L, message = ErrorMessage.POSITIVE_MESSAGE)
     private Long awayScore;
 
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)

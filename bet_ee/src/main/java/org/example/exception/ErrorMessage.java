@@ -26,11 +26,13 @@ public class ErrorMessage {
     public static final String FOOTBALL_TEAM_NOT_FOUND_MSG = "Football Team Not Found";
     public static final String FOOTBALL_MATCH_NOT_FOUND_MSG_KEY = "FootballMatchNotExisted";
     public static final String FOOTBALL_MATCH_NOT_FOUND_MSG = "Football Match Not Found";
-    public static final String KEY_POSITIVE_MESSAGE = "exception.score.positive";
-    public static final String POSITIVE_MESSAGE = "Score must be positive";
+    public static final String KEY_POSITIVE_MESSAGE = "exception.number.positive";
+    public static final String POSITIVE_MESSAGE = "Must be positive number";
     public static final String FUTURE_OR_PRESENT = "Start date must be present or future";
     public static final String KEY_FUTURE_OR_PRESENT = "exception.date.wrong";
 
+    public static final String USERNAME_INVALID="Username is invalid";
+    public static final String KEY_USERNAME_INVALID="exception.username.invalid";
 
     private ErrorMessage() {
     }
@@ -39,7 +41,7 @@ public class ErrorMessage {
         Map<String, String> errorMap = new HashMap<>();
         errorMap.put(POSITIVE_MESSAGE,KEY_POSITIVE_MESSAGE);
         errorMap.put( FUTURE_OR_PRESENT,KEY_FUTURE_OR_PRESENT);
-
+        errorMap.put(USERNAME_INVALID,KEY_USERNAME_INVALID);
 
         return errorMap;
     }
