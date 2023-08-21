@@ -39,18 +39,7 @@ public class FootballMatchService {
     @Inject
     private FootballTeamDAO footballTeamDAO;
 
-    private static void verifyResult(FootballMatch footballMatch, Long homeScore, Long awayScore) {
-        if (homeScore > awayScore) {
-            footballMatch.getMatchResult().setResultEnum(ResultEnum.WIN);
 
-        } else if (homeScore < awayScore) {
-            footballMatch.getMatchResult().setResultEnum(ResultEnum.LOSE);
-
-        } else {
-            footballMatch.getMatchResult().setResultEnum(ResultEnum.DRAW);
-
-        }
-    }
 
     public List<FootballMatchDTO> getAll() {
         List<FootballMatch> footballMatchList = footballMatchDAO.findAll();
@@ -113,6 +102,18 @@ public class FootballMatchService {
         Set<ConstraintViolation<FootballMatchDTO>> violations = validator.validate(footballMatchDTO);
         if (CollectionUtils.isNotEmpty(violations)) {
             throw new ConstraintViolationException(violations);
+        }
+    }
+    private static void verifyResult(FootballMatch footballMatch, Long homeScore, Long awayScore) {
+        if (homeScore > awayScore) {
+            footballMatch.getMatchResult().setResultEnum(ResultEnum.WIN);
+
+        } else if (homeScore < awayScore) {
+            footballMatch.getMatchResult().setResultEnum(ResultEnum.LOSE);
+
+        } else {
+            footballMatch.getMatchResult().setResultEnum(ResultEnum.DRAW);
+
         }
     }
 }
