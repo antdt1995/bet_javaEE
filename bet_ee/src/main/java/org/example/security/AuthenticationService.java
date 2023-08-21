@@ -5,12 +5,12 @@ import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import org.apache.commons.collections4.CollectionUtils;
-import org.example.entity.RoleEnum;
+import org.example.enumclass.RoleEnum;
 import org.example.exception.EntityNotFoundException;
 import org.example.exception.ErrorMessage;
 import org.example.exception.SecurityException;
-import org.example.model.AccountDTO;
-import org.example.service.AccountService;
+import org.example.account.AccountDTO;
+import org.example.account.AccountService;
 import org.hibernate.validator.messageinterpolation.ParameterMessageInterpolator;
 import org.mindrot.jbcrypt.BCrypt;
 

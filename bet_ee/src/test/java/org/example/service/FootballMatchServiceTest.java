@@ -1,8 +1,9 @@
 package org.example.service;
 
-import org.example.dao.FootballMatchDAO;
-import org.example.dao.MatchResultDAO;
-import org.example.mapper.FootballMatchMapper;
+import org.example.footballmatch.FootballMatchDAO;
+import org.example.matchresult.MatchResultDAO;
+import org.example.footballmatch.FootballMatchService;
+import org.example.footballmatch.FootballMatchMapper;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;

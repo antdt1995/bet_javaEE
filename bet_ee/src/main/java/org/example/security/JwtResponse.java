@@ -1,7 +1,7 @@
 package org.example.security;
 
 import lombok.*;
-import org.example.entity.RoleEnum;
+import org.example.enumclass.RoleEnum;
 
 @AllArgsConstructor
 @NoArgsConstructor
