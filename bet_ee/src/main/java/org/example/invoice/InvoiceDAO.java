@@ -12,9 +12,8 @@ import java.util.List;
 public class InvoiceDAO {
     @PersistenceContext(name = "betting")
     private EntityManager em;
-    public Invoice save(Invoice invoice){
+    public void save(Invoice invoice){
         em.persist(invoice);
-        return invoice;
     }
     public List<Invoice> getAll(){
         CriteriaBuilder cr = em.getCriteriaBuilder();

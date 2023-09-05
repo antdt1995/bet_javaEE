@@ -15,9 +15,8 @@ public class AccountService {
     @Inject
    private AccountMapper accountMapper;
 
-    public AccountDTO findByUsername(String username) throws EntityNotFoundException {
-        Account account = accountDAO.findByUsername(username).orElseThrow(()-> new EntityNotFoundException(ErrorMessage.ACCOUNT_NOT_FOUND_MSG_KEY,ErrorMessage.ACCOUNT_NOT_FOUND_MSG));
-        return accountMapper.toDTO(account);
+    public Account findByUsername(String username) throws EntityNotFoundException {
+        return accountDAO.findByUsername(username).orElseThrow(()-> new EntityNotFoundException(ErrorMessage.ACCOUNT_NOT_FOUND_MSG_KEY,ErrorMessage.ACCOUNT_NOT_FOUND_MSG));
     }
 
     public AccountDTO create(AccountDTO accountDTO) {

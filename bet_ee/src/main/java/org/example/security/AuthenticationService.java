@@ -6,6 +6,7 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import org.apache.commons.collections4.CollectionUtils;
+import org.example.account.Account;
 import org.example.enumclass.RoleEnum;
 import org.example.exception.EntityNotFoundException;
 import org.example.exception.ErrorMessage;
@@ -22,6 +23,7 @@ import javax.validation.ConstraintViolationException;
 import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.ws.rs.core.Response;
+import java.time.Instant;
 import java.util.Date;
 import java.util.Set;
 import java.util.UUID;
@@ -46,13 +48,13 @@ public class AuthenticationService {
         String username = jwtRequest.getUsername().trim();
         verifyJwtRequest(jwtRequest);
         String token = generateToken(jwtRequest);
-        AccountDTO accountDTO = accountService.findByUsername(username);
-        RoleEnum roleEnum = accountDTO.getRoleEnum();
+        Account account = accountService.findByUsername(username);
+        RoleEnum roleEnum = account.getRoleEnum();
         return new JwtResponse(username, token, roleEnum);
     }
 
     public String generateToken(JwtRequest jwtRequest) throws EntityNotFoundException {
-        if (!checkAuthentication(jwtRequest.getUsername(), jwtRequest.getPassword())) {
+        if (!checkAuthentication(jwtRequest)) {
             throw new EntityNotFoundException(ErrorMessage.ACCOUNT_NOT_FOUND_MSG_KEY, ErrorMessage.ACCOUNT_NOT_FOUND_MSG);
         }
         Algorithm algorithm = Algorithm.HMAC256(SECRET_KEY);
@@ -62,7 +64,7 @@ public class AuthenticationService {
                 .withJWTId(UUID.randomUUID().toString())
                 .withClaim(USERNAME, jwtRequest.getUsername())
                 .withClaim(ROLE, String.valueOf(accountService.findByUsername(jwtRequest.getUsername()).getRoleEnum()))
-                .withExpiresAt(new Date(System.currentTimeMillis() + "600000"))
+                .withExpiresAt(new Date(System.currentTimeMillis() + 60 * 60 * 1000))
                 .sign(algorithm);
     }
 
@@ -81,9 +83,9 @@ public class AuthenticationService {
         }
     }
 
-    private Boolean checkAuthentication(String username, String password) throws EntityNotFoundException {
-        AccountDTO accountDTO = accountService.findByUsername(username);
-        return BCrypt.checkpw(password, accountDTO.getPassword());
+    public boolean checkAuthentication(JwtRequest jwtRequest) throws EntityNotFoundException {
+        Account account = accountService.findByUsername(jwtRequest.getUsername());
+        return BCrypt.checkpw(jwtRequest.getPassword(), account.getPassword());
     }
     public RoleEnum getRoleFromToken(String authorization) {
         String token = authorization.substring(BEARER.length()).trim();

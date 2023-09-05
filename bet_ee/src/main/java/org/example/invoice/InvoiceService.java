@@ -10,19 +10,23 @@ import org.example.invoicedetail.InvoiceDetailDTO;
 import org.example.odd.Odd;
 import org.example.odd.OddDAO;
 import org.example.security.AuthenticationService;
+import org.example.security.AuthorizationFilter;
 import org.hibernate.validator.messageinterpolation.ParameterMessageInterpolator;
 
+import javax.annotation.Resource;
+import javax.ejb.SessionContext;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.validation.Validation;
 import javax.validation.Validator;
-import javax.ws.rs.container.ContainerRequestContext;
-import javax.ws.rs.container.ContainerResponseContext;
-import javax.ws.rs.core.SecurityContext;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.HttpHeaders;
+import javax.ws.rs.ext.Provider;
 import java.util.ArrayList;
 import java.util.List;
 
 @Stateless
+@Provider
 public class InvoiceService {
     private static final Validator validator = Validation.byDefaultProvider()
             .configure()
@@ -39,28 +43,29 @@ public class InvoiceService {
     private AuthenticationService authenticationService;
     @Inject
     private AccountDAO accountDAO;
-    @Inject
-    private ContainerRequestContext requestContext;
 
-    public String getAccount(){
-        String authHeader=requestContext.getHeaderString("Authorization");
-      return authenticationService.getUsernameFromToken(authHeader);
+    @Context
+    private HttpHeaders httpHeaders;
+
+    public String getCurrentUsername() {
+        String authorizationHeader = httpHeaders.getHeaderString("Authorization");
+        return authenticationService.getUsernameFromToken(authorizationHeader);
     }
-    public InvoiceDTO create (List<InvoiceDetailDTO> invoiceDTO) throws EntityNotFoundException, InputValidationException {
-        Invoice invoice= new Invoice();
-        Account account=accountDAO.findByUsername(getAccount()).orElseThrow(() -> new EntityNotFoundException(ErrorMessage.ACCOUNT_NOT_FOUND_MSG_KEY, ErrorMessage.ACCOUNT_NOT_FOUND_MSG));
+    public InvoiceDTO create(List<InvoiceDetailDTO> invoiceDTO) throws EntityNotFoundException, InputValidationException {
+        Invoice invoice = new Invoice();
+        Account account = accountDAO.findByUsername(getCurrentUsername()).orElseThrow(() -> new EntityNotFoundException(ErrorMessage.ACCOUNT_NOT_FOUND_MSG_KEY, ErrorMessage.ACCOUNT_NOT_FOUND_MSG));
         Double totalBet = 0.0;
 
         List<InvoiceDetail> invoiceDetailList = new ArrayList<>();
-        for(InvoiceDetailDTO id : invoiceDTO) {
+        for (InvoiceDetailDTO id : invoiceDTO) {
             Odd odd = oddDAO.findById(id.getOddId()).orElseThrow(() -> new EntityNotFoundException(ErrorMessage.ODD_NOT_FOUND_MSG_KEY, ErrorMessage.ODD_NOT_FOUND_MSG));
             InvoiceDetail invoiceDetail = InvoiceDetail.builder()
                     .betAmount(id.getBetAmount())
                     .odd(odd)
                     .paymentStatus(Boolean.FALSE)
                     .build();
-           invoiceDetailList.add(invoiceDetail);
-           totalBet += id.getBetAmount();
+            invoiceDetailList.add(invoiceDetail);
+            totalBet += id.getBetAmount();
         }
         invoice.setTotalBet(totalBet);
         invoice.setInvoiceDetails(invoiceDetailList);

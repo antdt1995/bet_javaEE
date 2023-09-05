@@ -14,7 +14,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class InvoiceDetailDTO {
-    private Long detailId;
+    private Long id;
     private Double betAmount;
     private Long oddId;
 }
