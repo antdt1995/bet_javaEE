@@ -3,7 +3,7 @@ package org.example.security;
 import lombok.*;
 import org.example.enumclass.RoleEnum;
 
-@AllArgsConstructor
+
 @NoArgsConstructor
 @Getter
 @Setter
@@ -14,7 +14,7 @@ public class JwtResponse {
 
     private RoleEnum role;
 
-    private String type = "Bearer";
+    private static final String type = "Bearer";
 
     public JwtResponse(String token, String email, RoleEnum role) {
         this.token = token;

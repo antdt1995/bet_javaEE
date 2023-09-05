@@ -21,7 +21,7 @@ public class AccountDAO {
         cq.where(cr.equal(root.get("username"), username));
         return em.createQuery(cq).getResultList().stream().findFirst();
     }
-    public Account create(Account account) {
+    public Account save(Account account) {
         em.persist(account);
         return account;
     }

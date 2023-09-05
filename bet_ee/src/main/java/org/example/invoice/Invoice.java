@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.example.account.Account;
 import org.example.invoicedetail.InvoiceDetail;
+import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -18,6 +19,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import java.time.LocalDate;
 import java.util.List;
 
 @Entity
@@ -42,5 +44,8 @@ public class Invoice {
     @Column(name = "total_bet")
     private Double totalBet;
 
+    @CreationTimestamp
+    @Column(name ="bet_date",nullable = false)
+    private LocalDate betDate;
 
 }

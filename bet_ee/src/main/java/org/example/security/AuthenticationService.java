@@ -4,6 +4,7 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTVerificationException;
+import com.auth0.jwt.interfaces.DecodedJWT;
 import org.apache.commons.collections4.CollectionUtils;
 import org.example.enumclass.RoleEnum;
 import org.example.exception.EntityNotFoundException;
@@ -83,6 +84,17 @@ public class AuthenticationService {
     private Boolean checkAuthentication(String username, String password) throws EntityNotFoundException {
         AccountDTO accountDTO = accountService.findByUsername(username);
         return BCrypt.checkpw(password, accountDTO.getPassword());
+    }
+    public RoleEnum getRoleFromToken(String authorization) {
+        String token = authorization.substring(BEARER.length()).trim();
+        DecodedJWT decodedJWT = JWT.decode(token);
+        return RoleEnum.valueOf(decodedJWT.getClaim(ROLE).asString());
+    }
+
+    public String getUsernameFromToken(String authorization) {
+        String token = authorization.substring(BEARER.length()).trim();
+        DecodedJWT decodedJWT = JWT.decode(token);
+        return decodedJWT.getClaim(USERNAME).asString();
     }
 
 

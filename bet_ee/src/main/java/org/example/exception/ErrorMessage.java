@@ -40,6 +40,9 @@ public class ErrorMessage {
     public static final String UNAUTHORIZED_ACCESS="Unauthorized Access";
     public static final String KEY_FORBIDDEN_ACCESS="exception.forbidden.access";
     public static final String FORBIDDEN_ACCESS="Forbidden Access";
+    public static final String AMOUNT_OVER_BALANCE_MSG_KEY = "AmountOverBalance";
+    public static final String AMOUNT_OVER_BALANCE_MSG = "Amount Over Balance";
+
     private ErrorMessage() {
     }
 

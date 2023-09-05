@@ -27,7 +27,7 @@ public class AccountService {
                 .username(accountDTO.getUsername())
                 .password(BCrypt.hashpw(accountDTO.getPassword(), BCrypt.gensalt()))
                 .build();
-        return accountMapper.toDTO(accountDAO.create(account));
+        return accountMapper.toDTO(accountDAO.save(account));
     }
 
 
