@@ -42,6 +42,10 @@ public class ErrorMessage {
     public static final String FORBIDDEN_ACCESS="Forbidden Access";
     public static final String AMOUNT_OVER_BALANCE_MSG_KEY = "AmountOverBalance";
     public static final String AMOUNT_OVER_BALANCE_MSG = "Amount Over Balance";
+    public static final String INVALID_BET_AMOUNT_MSG_KEY = "InvalidBetAmount";
+    public static final String INVALID_BET_AMOUNT_MSG = "Bet Amount must be greater than 0";
+    public static final String ODD_EXPIRED_MSG_KEY = "OddExpired";
+    public static final String ODD_EXPIRED_MSG = "Odd Expired";
 
     private ErrorMessage() {
     }

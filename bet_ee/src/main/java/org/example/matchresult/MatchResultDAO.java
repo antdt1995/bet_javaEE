@@ -1,5 +1,6 @@
 package org.example.matchresult;
 
+import org.example.footballmatch.FootballMatch;
 import org.example.matchresult.MatchResult;
 
 import javax.ejb.Stateless;
@@ -7,6 +8,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Join;
 import javax.persistence.criteria.Root;
 import java.util.Optional;
 
@@ -25,6 +27,15 @@ public class MatchResultDAO {
         Root<MatchResult> root = cq.from(MatchResult.class);
         cq.select(root);
         cq.where(cr.equal(root.get("id"), id));
+        return em.createQuery(cq).getResultList().stream().findFirst();
+    }
+    public Optional<MatchResult> findByMatchId(Long matchId){
+        CriteriaBuilder cr=em.getCriteriaBuilder();
+        CriteriaQuery<MatchResult> cq = cr.createQuery(MatchResult.class);
+        Root<MatchResult> root = cq.from(MatchResult.class);
+        Join<MatchResult, FootballMatch> join = root.join("match");
+        cq.select(root);
+        cq.where(cr.equal(join.get("id"), matchId));
         return em.createQuery(cq).getResultList().stream().findFirst();
     }
 }

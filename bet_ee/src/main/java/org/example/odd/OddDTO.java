@@ -26,6 +26,7 @@ public class OddDTO {
     private String homeTeamName;
     @Min(value = 0L, message = ErrorMessage.POSITIVE_MESSAGE)
     private Double oddRate;
+    @Min(value = 0L, message = ErrorMessage.POSITIVE_MESSAGE)
     private Double zetScore;
 
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
