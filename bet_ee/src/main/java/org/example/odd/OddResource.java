@@ -34,4 +34,10 @@ public class OddResource {
         OddDTO odd=oddService.create(oddDTO, matchId);
         return Response.ok(URI.create("/odds/" + oddDTO.getId())).entity(odd).build();
     }
+    @GET
+    @Path("/{matchId}/win")
+    @Produces({MediaType.APPLICATION_JSON})
+    public Response getWinOdd(@PathParam("matchId") Long matchId){
+        return Response.ok(oddService.findWinOdd(matchId)).build();
+    }
 }

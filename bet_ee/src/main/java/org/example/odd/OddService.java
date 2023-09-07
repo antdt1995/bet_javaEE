@@ -41,4 +41,7 @@ public class OddService {
                 .build();
         return oddMapper.toDTO(oddDAO.save(odd));
     }
+    public OddDTO findWinOdd(Long matchId){
+        return oddMapper.toDTO(oddDAO.findWinOdd(matchId));
+    }
 }
