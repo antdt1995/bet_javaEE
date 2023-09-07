@@ -17,6 +17,7 @@ import javax.annotation.Resource;
 import javax.ejb.SessionContext;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
+import javax.transaction.Transactional;
 import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.ws.rs.core.Context;
@@ -51,9 +52,11 @@ public class InvoiceService {
         String authorizationHeader = httpHeaders.getHeaderString("Authorization");
         return authenticationService.getUsernameFromToken(authorizationHeader);
     }
+    @Transactional
     public InvoiceDTO create(List<InvoiceDetailDTO> invoiceDTO) throws EntityNotFoundException, InputValidationException {
         Invoice invoice = new Invoice();
         Account account = accountDAO.findByUsername(getCurrentUsername()).orElseThrow(() -> new EntityNotFoundException(ErrorMessage.ACCOUNT_NOT_FOUND_MSG_KEY, ErrorMessage.ACCOUNT_NOT_FOUND_MSG));
+        invoice.setAccount(account);
         Double totalBet = 0.0;
 
         List<InvoiceDetail> invoiceDetailList = new ArrayList<>();
@@ -63,6 +66,7 @@ public class InvoiceService {
                     .betAmount(id.getBetAmount())
                     .odd(odd)
                     .paymentStatus(Boolean.FALSE)
+                    .invoice(invoice)
                     .build();
             invoiceDetailList.add(invoiceDetail);
             totalBet += id.getBetAmount();

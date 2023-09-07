@@ -10,6 +10,7 @@ import javax.inject.Inject;
 
 @Stateless
 public class AccountService {
+    public static final double TOTAL_BALANCE = 0.0;
     @Inject
     private AccountDAO accountDAO;
     @Inject
@@ -23,6 +24,7 @@ public class AccountService {
         Account account = Account.builder()
                 .active(true)
                 .roleEnum(RoleEnum.ROLE_USER)
+                .totalBalance(TOTAL_BALANCE)
                 .username(accountDTO.getUsername())
                 .password(BCrypt.hashpw(accountDTO.getPassword(), BCrypt.gensalt()))
                 .build();
