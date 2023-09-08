@@ -6,6 +6,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import java.util.List;
 import java.util.Optional;
 
 @Stateless
@@ -21,6 +22,18 @@ public class AccountDAO {
         cq.where(cr.equal(root.get("username"), username));
         return em.createQuery(cq).getResultList().stream().findFirst();
     }
+    public List<Account> findByMatchId(Long matchId) {
+        return em.createQuery("SELECT a " +
+                        "FROM Account a " +
+                        "JOIN a.invoices i " +
+                        "JOIN i.invoiceDetails id " +
+                        "JOIN id.odd o " +
+                        "JOIN o.matchResult mr " +
+                        "WHERE mr.match.id = :matchId", Account.class)
+                .setParameter("matchId", matchId)
+                .getResultList();
+    }
+
     public Account save(Account account) {
         em.persist(account);
         return account;

@@ -30,4 +30,11 @@ public class AccountResource {
     public Response create(AccountDTO accountDTO) {
         return Response.ok(accountService.create(accountDTO)).build();
     }
+    @GET
+    @Path("/match/{matchId}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response  handlePayment(@PathParam("matchId") Long matchId) {
+        accountService.handlePayment(matchId);
+        return Response.noContent().build();
+    }
 }
