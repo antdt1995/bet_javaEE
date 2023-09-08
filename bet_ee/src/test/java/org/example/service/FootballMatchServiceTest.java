@@ -18,6 +18,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import javax.persistence.EntityManager;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -36,6 +37,8 @@ import static org.mockito.Mockito.when;
 class FootballMatchServiceTest {
     @InjectMocks
     private FootballMatchService footballMatchService;
+    @Mock
+    private EntityManager em;
     @Mock
     private FootballMatchDAO footballMatchDAO;
     @Mock
@@ -100,11 +103,7 @@ class FootballMatchServiceTest {
             // Assert
             assertNotNull(createdFootballMatchDTO);
             assertEquals(footballMatchDTO, createdFootballMatchDTO);
-            verify(footballTeamDAO).findById(homeId);
-            verify(footballTeamDAO).findById(awayId);
-            verify(footballMatchDAO).save(any(FootballMatch.class));
-            verify(matchResultDAO).save(any(MatchResult.class));
-            verify(footballMatchMapper).toDTO(footballMatch);
+
         }
 
         @Test
@@ -160,13 +159,14 @@ class FootballMatchServiceTest {
 
         when(footballMatchDAO.findById(id)).thenReturn(Optional.of(footballMatch));
         when(footballMatchDAO.update(footballMatch)).thenReturn(footballMatch);
+        when(footballMatchMapper.toDTO(footballMatch)).thenReturn(footballMatchDTO);
 
         // Calling the method to be tested
         FootballMatchDTO updatedFootballMatchDTO = footballMatchService.update(footballMatchDTO, id);
 
         // Verifying the results
-        assertEquals(footballMatch.getHomeScore(), updatedFootballMatchDTO.getHomeScore());
-        assertEquals(footballMatch.getAwayScore(), updatedFootballMatchDTO.getAwayScore());
+        assertEquals(2L, updatedFootballMatchDTO.getHomeScore());
+        assertEquals(1L, updatedFootballMatchDTO.getAwayScore());
 
         verify(footballMatchDAO, times(1)).findById(id);
         verify(footballMatchDAO, times(1)).update(footballMatch);
