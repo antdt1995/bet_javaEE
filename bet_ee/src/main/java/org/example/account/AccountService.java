@@ -4,6 +4,7 @@ import org.example.enumclass.RoleEnum;
 import org.example.exception.EntityNotFoundException;
 import org.example.exception.ErrorMessage;
 import org.example.invoice.Invoice;
+import org.example.invoicedetail.InvoiceDetail;
 import org.example.odd.OddDTO;
 import org.example.odd.OddService;
 import org.mindrot.jbcrypt.BCrypt;
@@ -12,7 +13,6 @@ import javax.ejb.Stateless;
 import javax.inject.Inject;
 import java.util.List;
 import java.util.Objects;
-import java.util.concurrent.atomic.AtomicReference;
 
 @Stateless
 public class AccountService {
@@ -41,22 +41,25 @@ public class AccountService {
 
     public void handlePayment(Long matchId) {
         List<Account> accountList = accountDAO.findByMatchId(matchId);
-        OddDTO oddDTO=oddService.findWinOdd(matchId);
+        OddDTO oddDTO = oddService.findWinOdd(matchId);
         Long oddId = oddDTO.getId();
-        AtomicReference<Double> betWin = new AtomicReference<>(0.0);
+
         for (Account account : accountList) {
-           for(Invoice invoice : account.getInvoices()){
-               invoice.getInvoiceDetails().forEach(invoiceDetail -> {
-                   if(Objects.equals(invoiceDetail.getOdd().getId(), oddId)){
-                      betWin.set(invoiceDetail.getBetAmount() * oddDTO.getOddRate());
-                   }
-                   invoiceDetail.setPaymentStatus(true);
-               });
-           }
-           account.setTotalBalance(account.getTotalBalance()+betWin.get());
-           accountDAO.save(account);
+            double betWin = 0.0;
+
+            for (Invoice invoice : account.getInvoices()) {
+                for (InvoiceDetail invoiceDetail : invoice.getInvoiceDetails()) {
+                    if (Objects.equals(invoiceDetail.getOdd().getId(), oddId)) {
+                        betWin = invoiceDetail.getBetAmount() * oddDTO.getOddRate();
+                    }
+                    invoiceDetail.setPaymentStatus(true);
+                }
+            }
+
+            account.setTotalBalance(account.getTotalBalance() + betWin);
+            accountDAO.save(account);
         }
     }
-
-
 }
+
+
